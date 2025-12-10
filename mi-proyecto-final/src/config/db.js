@@ -1,9 +1,7 @@
-// src/config/db.js
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import dotenv from "dotenv";
 
-// Cargar las variables del archivo .env
 dotenv.config();
 
 const firebaseConfig = {
@@ -15,10 +13,13 @@ const firebaseConfig = {
   appId: process.env.FIREBASE_APP_ID
 };
 
-// Inicializar Firebase
+// Inicialización de la aplicación Firebase
 const app = initializeApp(firebaseConfig);
 
-// Exportamos la referencia a la base de datos (Firestore) para usarla en los Modelos
+// Exportación de la instancia de Firestore para interacción con la BD
 export const db = getFirestore(app);
 
-console.log("🔥 Firebase conectado exitosamente");
+// Log informativo de conexión exitosa (Opcional en producción)
+if (process.env.NODE_ENV !== 'production') {
+    console.log("Conexión establecida con Firebase Firestore");
+}

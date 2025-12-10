@@ -9,7 +9,7 @@ export async function getProduct(id) {
 }
 
 export async function createNewProduct(data) {
-    // Aquí podríamos validar que data.price > 0, por ejemplo.
+    // Aquí se puede implementar lógica de negocio adicional (validaciones extendidas, cálculos, etc.)
     return await ProductModel.createProduct(data);
 }
 

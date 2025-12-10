@@ -2,18 +2,17 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
-const SECRET_KEY = process.env.SECRET_KEY || 'palabra_secreta_temporal';
+const SECRET_KEY = process.env.SECRET_KEY;
 
 export const verifyToken = (req, res, next) => {
-    // El token suele venir en el Header "Authorization"
+    // Extracción del token del header 'Authorization'
     const authHeader = req.headers['authorization'];
     
-    // Si no hay header, error 403
     if (!authHeader) {
-        return res.status(403).json({ message: 'Se requiere un token de autenticación' });
+        return res.status(403).json({ message: 'Token de autenticación no proporcionado' });
     }
 
-    // El formato suele ser "Bearer eyJhbGci..." así que separamos el texto
+    // El formato esperado es 'Bearer <token>', separamos para obtener solo el token
     const token = authHeader.split(' ')[1];
 
     if (!token) {
@@ -21,13 +20,12 @@ export const verifyToken = (req, res, next) => {
     }
 
     try {
-        // Verificamos el token con nuestra llave maestra
+        // Verificación de la firma y expiración del token
         const decoded = jwt.verify(token, SECRET_KEY);
         
-        // Si pasa, guardamos los datos del usuario en la request por si los necesitamos luego
+        // Adjuntamos la info del usuario decodificada a la request para uso posterior
         req.user = decoded;
         
-        // ¡Adelante! Continúa a la siguiente función (el controlador)
         next(); 
     } catch (error) {
         return res.status(401).json({ message: 'Token inválido o expirado' });
