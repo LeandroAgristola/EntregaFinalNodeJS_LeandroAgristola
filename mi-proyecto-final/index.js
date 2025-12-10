@@ -3,9 +3,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import productsRoutes from './src/routes/products.routes.js'; // Importamos rutas de productos
-
+import authRoutes from './src/routes/auth.routes.js';
 // Importamos rutas (Las crearemos en el siguiente paso, por ahora pueden dar error si no existen, pero esta es la estructura)
-// import productsRoutes from './src/routes/products.routes.js';
 // import authRoutes from './src/routes/auth.routes.js';
 
 dotenv.config(); // Habilita el uso de variables de entorno
@@ -25,7 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 // --- RUTAS ---
 // Aquí conectaremos el "Menú" más adelante
 app.use('/api/products', productsRoutes);
-// app.use('/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 // Ruta de prueba para ver si el servidor vive
 app.get('/', (req, res) => {
